@@ -29,7 +29,7 @@ if !R! == False (
 goto END
 
 :LENOVO
-echo Lenovo system detected
+echo Lenovo system detected. Lenovo doesn't support setting a new password for the first time.
 FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
 if !R! == 0 (
 	echo password is not set
