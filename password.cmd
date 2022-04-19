@@ -32,13 +32,12 @@ goto END
 echo Lenovo system detected
 FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
 if !R! == 0 (
-	echo Lenovo not supported
-REM	echo password is not set
+	echo password is not set
 
-REM	powershell -ExecutionPolicy Bypass.\lenovo-bios-password.ps1 -NoUserPrompt -SupervisorSet -SupervisorPassword !newpassword! -OldSupervisorPassword ""
+	powershell -ExecutionPolicy Bypass .\lenovo-bios-password.ps1 -NoUserPrompt -SupervisorSet -SupervisorPassword !newpassword! -OldSupervisorPassword ""
 
-REM	FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
-REM	if !R! == 0 (echo Failed to set the password) else (echo New password set)
+	FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
+	if !R! == 0 (echo Failed to set the password) else (echo New password set)
 ) else (
 	echo password is already set
 )
