@@ -7,7 +7,7 @@ if [%newpassword%]==[] goto HELP
 wmic computersystem get manufacturer | findstr Dell > NUL
 if %ERRORLEVEL% EQU 0 GOTO DELL
 
-wmic computersystem get manufacturer | findstr Dell > NUL
+wmic computersystem get manufacturer | findstr LENOVO > NUL
 if %ERRORLEVEL% EQU 0 GOTO LENOVO
 
 wmic computersystem get manufacturer | findstr Hewlett-Packard > NUL
