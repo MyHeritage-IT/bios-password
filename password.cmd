@@ -47,11 +47,11 @@ goto END
 :HP
 echo HP system detected
 FOR /F %%i IN ('powershell .\hp_check.ps1') DO set R=%%i
-if !R! == False (
-	powershell -ExecutionPolicy Bypass .\dell-bios-password.ps1 -AdminSet -AdminPassword !newpassword!
+if !R! == 0 (
+	powershell -ExecutionPolicy Bypass .\hp-bios-password.ps1 -SetupSet -SetupPassword !newpassword!
 
 	FOR /F %%i IN ('powershell .\hp_check.ps1') DO set R=%%i
-	if !R! == False (echo Failed to set the password) else (echo New password set)
+	if !R! == 0 (echo Failed to set the password) else (echo New password set)
 ) else (
 	echo password is already set
 )
