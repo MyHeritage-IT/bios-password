@@ -19,7 +19,7 @@ goto ERROR
 echo Dell system detected
 FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\dell_check.ps1') DO set R=%%i
 if !R! == False (
-	powershell -ExecutionPolicy Bypass .\dell-bios-password.ps1 -AdminSet -AdminPassword !newpassword!
+	powershell -ExecutionPolicy Bypass -NoUserPrompt .\dell-bios-password.ps1 -AdminSet -AdminPassword !newpassword!
 
 	FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\dell_check.ps1') DO set R=%%i
 	if !R! == False (echo Failed to set the password) else (echo New password set)
@@ -35,7 +35,7 @@ if !R! == 0 (
 	echo Lenovo not supported
 REM	echo password is not set
 
-REM	powershell -ExecutionPolicy Bypass .\lenovo-bios-password.ps1 -NoUserPrompt -SupervisorSet -SupervisorPassword !newpassword! -OldSupervisorPassword ""
+REM	powershell -ExecutionPolicy Bypass -NoUserPrompt .\lenovo-bios-password.ps1 -SupervisorSet -SupervisorPassword !newpassword! -OldSupervisorPassword ""
 
 REM	FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
 REM	if !R! == 0 (echo Failed to set the password) else (echo New password set)
@@ -48,7 +48,7 @@ goto END
 echo HP system detected
 FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\hp_check.ps1') DO set R=%%i
 if !R! == 0 (
-	powershell -ExecutionPolicy Bypass .\hp-bios-password.ps1 -SetupSet -SetupPassword !newpassword!
+	powershell -ExecutionPolicy Bypass -NoUserPrompt -ContinueOnError .\hp-bios-password.ps1 -SetupSet -SetupPassword !newpassword!
 
 	FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\hp_check.ps1') DO set R=%%i
 	if !R! == 0 (echo Failed to set the password) else (echo New password set)
