@@ -2,7 +2,8 @@
 SetLocal EnableDelayedExpansion
 set newpassword=%1
 
-#wmic computersystem get model,name,manufacturer,systemtype | findstr Dell > NUL
+if %ERRORLEVEL% EQU 0 GOTO HP
+
 wmic computersystem get manufacturer | findstr Dell > NUL
 if %ERRORLEVEL% EQU 0 GOTO DELL
 
@@ -29,7 +30,6 @@ goto END
 
 :LENOVO
 echo Lenovo system detected
-				 Get-CimInstance   -Namespace root/WMI -ClassName Lenovo_BiosPasswordSettings
 FOR /F %%i IN ('powershell "(Get-WmiObject -Namespace root\wmi -Class Lenovo_BiosPasswordSettings).PasswordState"') DO set R=%%i
 if !R! == 0 (
 	echo Lenovo not supported
@@ -46,12 +46,11 @@ goto END
 
 :HP
 echo HP system detected
-#Connect to the HP_BIOSSetting WMI class
-FOR /F %%i IN ('powershell (Get-WmiObject -Namespace root/hp/InstrumentedBIOS -Class HP_BIOSSetting ^| Where-Object Name -eq ^'Setup Password^').IsSet') DO set R=%%i
+FOR /F %%i IN ('powershell .\hp_check.ps1') DO set R=%%i
 if !R! == False (
 	powershell -ExecutionPolicy Bypass .\dell-bios-password.ps1 -AdminSet -AdminPassword !newpassword!
 
-	FOR /F %%i IN ('powershell (Get-WmiObject -Namespace root/hp/InstrumentedBIOS -Class HP_BIOSSetting ^| Where-Object Name -eq ^'Setup Password^').IsSet') DO set R=%%i
+	FOR /F %%i IN ('powershell .\hp_check.ps1') DO set R=%%i
 	if !R! == False (echo Failed to set the password) else (echo New password set)
 ) else (
 	echo password is already set
