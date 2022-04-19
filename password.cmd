@@ -54,7 +54,7 @@ if !R! == 0 (
 	if !R! == 0 (echo Failed to set the password) else (echo New password set)
 ) else (
 	echo password is already set
-)5:40 PM 4/19/2022
+)
 goto END
 
 :HELP
