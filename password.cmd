@@ -2,6 +2,8 @@
 SetLocal EnableDelayedExpansion
 set newpassword=%1
 
+if [%newpassword%]==[] goto HELP
+
 wmic computersystem get manufacturer | findstr Dell > NUL
 if %ERRORLEVEL% EQU 0 GOTO DELL
 
@@ -53,6 +55,10 @@ if !R! == False (
 ) else (
 	echo password is already set
 )
+goto END
+
+:HELP
+echo Usage: password.cmd NEW-PASSWORD
 goto END
 
 :ERROR
