@@ -48,13 +48,13 @@ goto END
 echo HP system detected
 FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\hp_check.ps1') DO set R=%%i
 if !R! == 0 (
-	powershell -ExecutionPolicy Bypass .\hp-bios-password.ps1 -NoUserPrompt -ContinueOnError -SetupSet -SetupPassword !newpassword!
+	powershell -ExecutionPolicy Bypass .\hp-bios-password.ps1 -NoUserPrompt -SetupSet -SetupPassword !newpassword!
 
 	FOR /F %%i IN ('powershell -ExecutionPolicy Bypass .\hp_check.ps1') DO set R=%%i
 	if !R! == 0 (echo Failed to set the password) else (echo New password set)
 ) else (
 	echo password is already set
-)
+)5:40 PM 4/19/2022
 goto END
 
 :HELP
